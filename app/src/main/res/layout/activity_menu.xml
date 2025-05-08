@@ -9,7 +9,7 @@
 
     <!-- App Title -->
     <TextView
-        android:id="@+id/tvTitle"
+        android:id="@+id/titleText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/menuTitleText"
@@ -24,7 +24,7 @@
 
     <!--  Start Button  -->
     <Button
-        android:id="@+id/btnStartGame"
+        android:id="@+id/startGameButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/startGameButtonText" />
