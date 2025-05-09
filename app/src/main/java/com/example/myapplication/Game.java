@@ -85,6 +85,21 @@ public class Game{
         }
     }
 
+    public void playerHit(){
+        if (playerHand.scoreBusts()){
+            return; //should not happen
+        }
+        playerHand.getHit();
+    }
+
+    public boolean playerBust(){
+        return playerHand.scoreBusts();
+    }
+
+    public int getPlayerScore(){
+        return playerHand.calculateScore();
+    }
+
     public void dealersTurn(){
         if (dealerHand.getCards().size() != 2 ){
             return; //should not happen
@@ -92,6 +107,10 @@ public class Game{
         while(!dealerHand.scoreBusts() && dealerHand.calculateScore() != 17){
             dealerHand.getHit();
         }
+    }
+
+    public int getDealerScore(){
+        return dealerHand.calculateScore();
     }
 
 }

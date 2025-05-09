@@ -4,4 +4,5 @@
     <string name="startGameButtonText">Start Game</string>
     <string name="hitButtonText">Hit</string>
     <string name="standButtonText">Stand</string>
+    <string name="dealerScoreLabel">Dealer Score</string>
 </resources>
