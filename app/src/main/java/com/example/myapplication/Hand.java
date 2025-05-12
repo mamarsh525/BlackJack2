@@ -27,18 +27,16 @@ public class Hand {
 
     public int calculateScore() {
         int sum = 0;
+        int aceCount =0;
         for(Card card : cards) {
             sum += card.getValue();
-        }
-
-        if(sum >21){
-            int aceCount =0;
-            for(Card card : cards) {
-                if(card.getName().equals("Ace")){
-                    aceCount++;
-                }
+            if(card.getName().equals("Ace")){
+                aceCount++;
             }
-            sum -= (aceCount * 10);
+        }
+        while (sum > 21 && aceCount > 0) {
+            sum -= 10;
+            aceCount--;
         }
 
         return sum;
