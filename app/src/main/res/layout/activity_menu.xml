@@ -8,25 +8,32 @@
     android:padding="24dp">
 
     <!-- App Title -->
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="125dp" />
+
     <TextView
         android:id="@+id/titleText"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/menuTitleText"
-        android:textSize="32sp"
-        android:textStyle="bold"
-        android:gravity="center"
-        android:textColor="@android:color/black"
-        android:layout_marginBottom="100dp"
+        android:layout_height="72dp"
         android:layout_marginTop="100dp"
-        />
+        android:layout_marginBottom="100dp"
+        android:gravity="center"
+        android:text="@string/menuTitleText"
+        android:textColor="@android:color/black"
+        android:textSize="32sp"
+        android:textStyle="bold" />
 
 
     <!--  Start Button  -->
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="121dp" />
+
     <Button
         android:id="@+id/startGameButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="157dp"
+        android:layout_height="77dp"
         android:text="@string/startGameButtonText" />
 
 </LinearLayout>

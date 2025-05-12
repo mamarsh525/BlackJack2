@@ -53,14 +53,30 @@ public class Game{
     }
 
     public void checkWinner(){
-        if(playerHand.calculateScore() > dealerHand.calculateScore()){
+        int playerScore = playerHand.calculateScore();
+        int dealerScore = dealerHand.calculateScore();
+
+        if((playerScore > dealerScore) && (playerScore <= 21)){
             winCount++;
             return;
-        } else if (playerHand.calculateScore() < dealerHand.calculateScore()) {
+        } else if ((playerScore < dealerScore) && (dealerScore <= 21)) {
             loseCount++;
             return;
         }
         tieCount++;
+    }
+
+    public String getResult() {
+        int playerScore = playerHand.calculateScore();
+        int dealerScore = dealerHand.calculateScore();
+
+        if ((playerScore > dealerScore) && (playerScore <= 21)) {
+            return "win";
+        } else if ((playerScore < dealerScore) && (dealerScore <= 21)) {
+            return "lose";
+        } else {
+            return "draw";
+        }
     }
 
     public void playersTurn(){
@@ -104,7 +120,7 @@ public class Game{
         if (dealerHand.getCards().size() != 2 ){
             return; //should not happen
         }
-        while(!dealerHand.scoreBusts() && dealerHand.calculateScore() != 17){
+        while(!dealerHand.scoreBusts() && dealerHand.calculateScore() < 17){
             dealerHand.getHit();
         }
     }

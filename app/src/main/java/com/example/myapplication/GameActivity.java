@@ -1,5 +1,6 @@
 package com.example.myapplication;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -30,7 +31,6 @@ public class GameActivity extends AppCompatActivity {
         //check the initial hand for a winner (user, dealer, or both have black jack)
         if(!game.checkInitialHand()) {
             playersTurn(game);//continue the game (players turn will call the dealers turn when the player has ended their turn)
-            game.checkWinner();
         }
 
     }
@@ -49,14 +49,12 @@ public class GameActivity extends AppCompatActivity {
             public void onClick(View v) {
                 //handle hit logic here
                 game.playerHit();
-                if(!game.playerBust()){
-                    updatePlayerScore(game);
-                    playersTurn(game); //repeat turn until player stands or bust
-                }else{
+                updatePlayerScore(game);
+                if(game.playerBust()){
                     hitButton.setEnabled(false);
                     standButton.setEnabled(false);
+                    results(game);
                 }
-                updatePlayerScore(game);
             }
         });
 
@@ -67,6 +65,7 @@ public class GameActivity extends AppCompatActivity {
                 standButton.setEnabled(false);
                 game.dealersTurn();
                 updateDealerScore(game);
+                results(game);
             }
         }));
 
@@ -86,5 +85,14 @@ public class GameActivity extends AppCompatActivity {
         dealerScoreText.setText(message);
     }
 
+    private void results(Game game) {
+        game.checkWinner();
+        String result = game.getResult();
+        Intent intent = new Intent(GameActivity.this, WinLoseActivity.class);
+        intent.putExtra("result", result);
+        intent.putExtra("playerScore", game.getPlayerScore());
+        intent.putExtra("dealerScore", game.getDealerScore());
+        startActivity(intent);
+    }
 
 }
