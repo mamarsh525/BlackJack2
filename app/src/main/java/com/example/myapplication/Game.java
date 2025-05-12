@@ -52,29 +52,24 @@ public class Game{
         return false;
     }
 
-    public void checkWinner(){
+    public String checkWinner(){
         int playerScore = playerHand.calculateScore();
         int dealerScore = dealerHand.calculateScore();
 
-        if((playerScore > dealerScore) && (playerScore <= 21)){
-            winCount++;
-            return;
-        } else if ((playerScore < dealerScore) && (dealerScore <= 21)) {
+        if (playerScore > 21) {
             loseCount++;
-            return;
-        }
-        tieCount++;
-    }
-
-    public String getResult() {
-        int playerScore = playerHand.calculateScore();
-        int dealerScore = dealerHand.calculateScore();
-
-        if ((playerScore > dealerScore) && (playerScore <= 21)) {
+            return "lose";
+        } else if (dealerScore > 21) {
+            winCount++;
             return "win";
-        } else if ((playerScore < dealerScore) && (dealerScore <= 21)) {
+        } else if (playerScore > dealerScore) {
+            winCount++;
+            return "win";
+        } else if (playerScore < dealerScore) {
+            loseCount++;
             return "lose";
         } else {
+            tieCount++;
             return "draw";
         }
     }

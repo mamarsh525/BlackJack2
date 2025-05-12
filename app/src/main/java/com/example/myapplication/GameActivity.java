@@ -32,6 +32,9 @@ public class GameActivity extends AppCompatActivity {
         if(!game.checkInitialHand()) {
             playersTurn(game);//continue the game (players turn will call the dealers turn when the player has ended their turn)
         }
+        else{
+            results(game);
+        }
 
     }
 
@@ -87,7 +90,7 @@ public class GameActivity extends AppCompatActivity {
 
     private void results(Game game) {
         game.checkWinner();
-        String result = game.getResult();
+        String result = game.checkWinner();
         Intent intent = new Intent(GameActivity.this, WinLoseActivity.class);
         intent.putExtra("result", result);
         intent.putExtra("playerScore", game.getPlayerScore());
