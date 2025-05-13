@@ -113,6 +113,13 @@ public class Game{
         Card newCard = playerHand.getHit();
         return newCard.getImageName();
     }
+    public String dealerHit(){
+        if (dealerHand.scoreBusts()){
+            return null; //should not happen
+        }
+        Card newCard = dealerHand.getHit();
+        return newCard.getImageName();
+    }
 
     public boolean playerBust(){
         return playerHand.scoreBusts();
@@ -131,7 +138,7 @@ public class Game{
         secondCard.flip();
 
         while(!dealerHand.scoreBusts() && dealerHand.calculateScore() < 17){
-            dealerHand.getHit();
+           dealerHit();
         }
     }
 

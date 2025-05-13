@@ -2,6 +2,8 @@ package com.example.myapplication;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -66,7 +68,7 @@ public class GameActivity extends AppCompatActivity {
         dealerCardContainer.addView(dealerCardToImage);
     }
 
-    private void playersTurn(Game game){
+    private void playersTurn(Game game) {
         //returns true if the game continues to dealers turn (player does not bust)
         //false if the player busts (scores greater than 21)
 
@@ -84,7 +86,7 @@ public class GameActivity extends AppCompatActivity {
                 //handle hit logic here
                 game.playerHit();
                 updatePlayerScore(game);
-                if(game.playerBust()){
+                if (game.playerBust()) {
                     hitButton.setEnabled(false);
                     standButton.setEnabled(false);
                     results(game);
@@ -92,17 +94,38 @@ public class GameActivity extends AppCompatActivity {
             }
         });
 
-        standButton.setOnClickListener((new View.OnClickListener() {
+        standButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 hitButton.setEnabled(false);
                 standButton.setEnabled(false);
-                game.dealersTurn();
-                updateDealerScore(game);
-                results(game);
-            }
-        }));
 
+                // Flip the dealer's hidden card
+                ImageView dealerCardToFlip = (ImageView) dealerCardContainer.getChildAt(1);
+                dealerCardToFlip.setImageResource(CardImages.getCardResourceId(game.getDealerHand().getCards().get(1).getImageName()));
+
+                Handler handler = new Handler(Looper.getMainLooper());
+                int delay = 1000;
+
+                Runnable dealerPlay = new Runnable() {
+                    @Override
+                    public void run() {
+                        if (game.getDealerScore() < 17) {
+                            game.dealerHit();
+                            Card newCard = game.getDealerHand().getCards().get(game.getDealerHand().getCards().size() - 1);
+                            addCardImage(dealerCardContainer, newCard);
+                            updateDealerScore(game);
+
+                            handler.postDelayed(this, delay); // schedule next hit
+                        } else {
+                            results(game); // dealer is done, show results
+                        }
+                    }
+                };
+
+                handler.postDelayed(dealerPlay, delay); // start the dealer's turn after delay
+            }
+        });
     }
 
     public void updatePlayerScore(Game game){
@@ -122,11 +145,20 @@ public class GameActivity extends AppCompatActivity {
     private void results(Game game) {
         game.checkWinner();
         String result = game.checkWinner();
-        Intent intent = new Intent(GameActivity.this, WinLoseActivity.class);
-        intent.putExtra("result", result);
-        intent.putExtra("playerScore", game.getPlayerScore());
-        intent.putExtra("dealerScore", game.getDealerScore());
-        startActivity(intent);
+
+        ImageView dealerCardToFlip = (ImageView) dealerCardContainer.getChildAt(1);
+        dealerCardToFlip.setImageResource(CardImages.getCardResourceId(game.getDealerHand().getCards().get(1).getImageName()));
+        // delays the transition to make game feel smoother
+        new Handler(Looper.getMainLooper()).postDelayed(new Runnable()  {
+            @Override
+            public void run() {
+                Intent intent = new Intent(GameActivity.this, WinLoseActivity.class);
+                intent.putExtra("result", result);
+                intent.putExtra("playerScore", game.getPlayerScore());
+                intent.putExtra("dealerScore", game.getDealerScore());
+                startActivity(intent);
+            }
+        }, 1500);
     }
     public void addCardImage(LinearLayout container, Card card) {
         ImageView cardImage = new ImageView(this);

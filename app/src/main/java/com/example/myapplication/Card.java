@@ -72,7 +72,7 @@ public class Card{
     }
 
     public String getImageName() {
-        String suitLetter = suit.substring(0, 1);
+        String suitLetter = suit.substring(0, 1).toLowerCase();
         String rankStr;
 
         switch(rank) {
