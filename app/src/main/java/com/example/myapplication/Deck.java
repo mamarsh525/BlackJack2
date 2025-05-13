@@ -10,7 +10,6 @@ public class Deck {
 
     public Deck() {
         generateDeck();
-        shuffle();
     }
 
     public Deck(Random r){
