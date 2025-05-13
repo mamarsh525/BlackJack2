@@ -6,6 +6,7 @@ import java.util.Map;
 public class Card{
     private int rank;
     private String suit;
+    private boolean isFaceUp;
 
     // hashmap to store the rank name of the card and the actual value; made to address face cards
     private static final Map<String, Integer> values = new HashMap<>();
@@ -68,6 +69,29 @@ public class Card{
         if(!(o instanceof Card)) return false;
         Card c = (Card)o;
         return getRank() == c.getRank() && getSuit().equals(c.getSuit());
+    }
+
+    public String getImageName() {
+        String suitLetter = suit.substring(0, 1).toLowerCase();
+        String rankStr;
+
+        switch(rank) {
+            case 1: rankStr = "a"; break;
+            case 11: rankStr = "j"; break;
+            case 12: rankStr = "q"; break;
+            case 13: rankStr = "k"; break;
+            default: rankStr = Integer.toString(rank); break;
+        }
+
+        return suitLetter + rankStr;
+    }
+
+    public boolean isFaceUp() {
+        return isFaceUp;
+    }
+
+    public void flip() {
+        this.isFaceUp = !this.isFaceUp;
     }
 
 }

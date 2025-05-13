@@ -24,6 +24,16 @@ public class Game{
         currentDeck.shuffle();
         playerHand = new Hand(currentDeck);
         dealerHand = new Hand(currentDeck);
+
+        // players initall hand
+        playerHand.getHit();
+        playerHand.getHit();
+
+        // dealers initial hand
+        Card dealerFirstCard = dealerHand.getHit();
+        Card dealerSecondCard = dealerHand.getHit();
+        dealerSecondCard.flip();
+
     }
 
     public Game(Random r){
@@ -96,11 +106,19 @@ public class Game{
         }
     }
 
-    public void playerHit(){
+    public String playerHit(){
         if (playerHand.scoreBusts()){
-            return; //should not happen
+            return null; //should not happen
         }
-        playerHand.getHit();
+        Card newCard = playerHand.getHit();
+        return newCard.getImageName();
+    }
+    public String dealerHit(){
+        if (dealerHand.scoreBusts()){
+            return null; //should not happen
+        }
+        Card newCard = dealerHand.getHit();
+        return newCard.getImageName();
     }
 
     public boolean playerBust(){
@@ -115,13 +133,24 @@ public class Game{
         if (dealerHand.getCards().size() != 2 ){
             return; //should not happen
         }
+        // flip the second card
+        Card secondCard = dealerHand.getCards().get(1);
+        secondCard.flip();
+
         while(!dealerHand.scoreBusts() && dealerHand.calculateScore() < 17){
-            dealerHand.getHit();
+           dealerHit();
         }
     }
 
     public int getDealerScore(){
         return dealerHand.calculateScore();
+    }
+
+    public Hand getPlayerHand(){
+        return playerHand;
+    }
+    public Hand getDealerHand(){
+        return dealerHand;
     }
 
 }
