@@ -10,8 +10,6 @@ public class Hand {
     public Hand(Deck deck) {
         this.deck = deck;
         cards = new ArrayList<Card>();
-        cards.add(deck.removeCard());
-        cards.add(deck.removeCard());
     }
 
     public Card getHit() {
