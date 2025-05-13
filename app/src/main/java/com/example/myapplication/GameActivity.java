@@ -80,11 +80,10 @@ public class GameActivity extends AppCompatActivity {
         hitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                game.playerHit();
                 Card newCard = game.getPlayerHand().getCards().get(game.getPlayerHand().getCards().size() - 1);
-
                 addCardImage(playerCardContainer, newCard);
                 //handle hit logic here
-                game.playerHit();
                 updatePlayerScore(game);
                 if (game.playerBust()) {
                     hitButton.setEnabled(false);
