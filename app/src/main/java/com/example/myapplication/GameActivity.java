@@ -172,7 +172,7 @@ public class GameActivity extends AppCompatActivity {
     public void addCardImage(LinearLayout container, Card card) {
         ImageView cardImage = new ImageView(this);
 
-        String cardName = card.getImageName(); // Example: "ace_of_spades"
+        String cardName = card.getImageName(); // Example: "10h
         int resId = CardImages.getCardResourceId(cardName);
 
         cardImage.setImageResource(resId);
