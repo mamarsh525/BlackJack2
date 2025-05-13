@@ -35,7 +35,7 @@ public class GameActivity extends AppCompatActivity {
 //      start the game
         Game game = new Game();
         updatePlayerScore(game); //updates the text box for the player (this can handle card logic in future)
-        updateDealerScore(game); //updates text box for dealer
+        updateDealerScore(game, false); //updates text box for dealer
 
         showInitialCards(game);
 
@@ -102,6 +102,7 @@ public class GameActivity extends AppCompatActivity {
                 // Flip the dealer's hidden card
                 ImageView dealerCardToFlip = (ImageView) dealerCardContainer.getChildAt(1);
                 dealerCardToFlip.setImageResource(CardImages.getCardResourceId(game.getDealerHand().getCards().get(1).getImageName()));
+                updateDealerScore(game, true);
 
                 Handler handler = new Handler(Looper.getMainLooper());
                 int delay = 1000;
@@ -113,7 +114,7 @@ public class GameActivity extends AppCompatActivity {
                             game.dealerHit();
                             Card newCard = game.getDealerHand().getCards().get(game.getDealerHand().getCards().size() - 1);
                             addCardImage(dealerCardContainer, newCard);
-                            updateDealerScore(game);
+                            updateDealerScore(game, true);
 
                             handler.postDelayed(this, delay); // schedule next hit
                         } else {
@@ -135,10 +136,18 @@ public class GameActivity extends AppCompatActivity {
 
     }
 
-    public void updateDealerScore(Game game){
+    public void updateDealerScore(Game game, boolean showFullScore){
         TextView dealerScoreText = findViewById(R.id.dealerScoreText);
-        String message = Integer.toString((game.getDealerScore()));
-        dealerScoreText.setText(message);
+
+        int score;
+        if (showFullScore) {
+            score = game.getDealerScore();
+        } else {
+            // Only count the first (face-up) card
+            Card firstCard = game.getDealerHand().getCards().get(0);
+            score = firstCard.getValue(); // This assumes getValue() returns Blackjack value
+        }
+        dealerScoreText.setText(String.valueOf(score));
     }
 
     private void results(Game game) {
@@ -147,6 +156,7 @@ public class GameActivity extends AppCompatActivity {
 
         ImageView dealerCardToFlip = (ImageView) dealerCardContainer.getChildAt(1);
         dealerCardToFlip.setImageResource(CardImages.getCardResourceId(game.getDealerHand().getCards().get(1).getImageName()));
+        updateDealerScore(game, true);
         // delays the transition to make game feel smoother
         new Handler(Looper.getMainLooper()).postDelayed(new Runnable()  {
             @Override
