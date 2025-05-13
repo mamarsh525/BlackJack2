@@ -61,8 +61,6 @@ public class CardImages {
         cardImageMap.put("ck", R.drawable.ck);
         cardImageMap.put("gray_back", R.drawable.gray_back);
 
-
-        // Add all other cards here
     }
 
     public static int getCardResourceId(String cardName) {
